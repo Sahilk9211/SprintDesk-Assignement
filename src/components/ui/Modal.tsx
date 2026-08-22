@@ -1,5 +1,5 @@
 // src/components/ui/Modal.tsx
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
@@ -7,7 +7,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  position?: "center" | "right"; // "right" = side drawer variant
+  position?: "center" | "right";
   children: ReactNode;
 }
 
@@ -18,12 +18,26 @@ export default function Modal({
   position = "center",
   children,
 }: ModalProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     function handleEscape(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
     }
-    if (isOpen) document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
+
+    if (isOpen) {
+      previouslyFocused.current = document.activeElement as HTMLElement;
+      document.addEventListener("keydown", handleEscape);
+      // Move focus into the dialog once it's mounted.
+      requestAnimationFrame(() => panelRef.current?.focus());
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      // Restore focus to whatever triggered the modal, once it closes.
+      previouslyFocused.current?.focus();
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -40,10 +54,12 @@ export default function Modal({
       onClick={onClose}
     >
       <div
+        ref={panelRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className={`flex flex-col bg-white shadow-xl ${panelPositionClass}`}
+        className={`flex flex-col bg-white shadow-xl outline-none ${panelPositionClass}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">

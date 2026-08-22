@@ -52,7 +52,11 @@ export default function Analytics() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {/* Sprint Velocity */}
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
+        <div
+          className="rounded-lg border border-gray-200 bg-white p-4"
+          role="img"
+          aria-label={`Bar chart showing completed tasks per sprint: ${velocityData.map((d) => `${d.sprint}: ${d.completed}`).join(", ")}`}
+        >
           <h2 className="mb-3 text-sm font-semibold text-gray-700">
             Sprint Velocity
           </h2>
@@ -73,7 +77,11 @@ export default function Analytics() {
         </div>
 
         {/* Task Status Distribution */}
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
+        <div
+          className="rounded-lg border border-gray-200 bg-white p-4"
+          role="img"
+          aria-label={`Bar chart showing completed tasks per sprint: ${velocityData.map((d) => `${d.sprint}: ${d.completed}`).join(", ")}`}
+        >
           <h2 className="mb-3 text-sm font-semibold text-gray-700">
             Task Status Distribution
           </h2>
@@ -102,7 +110,11 @@ export default function Analytics() {
         </div>
 
         {/* Priority Breakdown */}
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
+        <div
+          className="rounded-lg border border-gray-200 bg-white p-4"
+          role="img"
+          aria-label={`Bar chart showing completed tasks per sprint: ${velocityData.map((d) => `${d.sprint}: ${d.completed}`).join(", ")}`}
+        >
           <h2 className="mb-3 text-sm font-semibold text-gray-700">
             Priority Breakdown
           </h2>
@@ -137,7 +149,11 @@ export default function Analytics() {
         </div>
 
         {/* Completion Trend */}
-        <div className="rounded-lg border border-gray-200 bg-white p-4">
+        <div
+          className="rounded-lg border border-gray-200 bg-white p-4"
+          role="img"
+          aria-label={`Bar chart showing completed tasks per sprint: ${velocityData.map((d) => `${d.sprint}: ${d.completed}`).join(", ")}`}
+        >
           <h2 className="mb-3 text-sm font-semibold text-gray-700">
             Completion Trend
           </h2>

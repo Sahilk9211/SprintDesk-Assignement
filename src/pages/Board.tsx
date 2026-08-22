@@ -146,6 +146,7 @@ export default function Board() {
               task={activeTask}
               assignee={users.find((u) => u.id === activeTask.assigneeId)}
               onClick={() => {}}
+              isOverlay
             />
           )}
         </DragOverlay>

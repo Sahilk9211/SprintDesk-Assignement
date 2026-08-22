@@ -33,9 +33,11 @@ export default function App() {
     setInitializing,
     clearAuth,
     isInitializing,
+    hasHydrated, // NEW
   } = useAuthStore();
 
   useEffect(() => {
+    if (!hasHydrated) return; // NEW — wait for localStorage read to complete
     async function restoreSession() {
       if (!refreshToken) {
         setInitializing(false);
@@ -45,7 +47,10 @@ export default function App() {
         const { accessToken, refreshToken: newRefreshToken } =
           await refreshTokenRequest(refreshToken);
         setAccessToken(accessToken);
-        useAuthStore.setState({ refreshToken: newRefreshToken });
+        useAuthStore.setState({
+          refreshToken: newRefreshToken,
+          isAuthenticated: true,
+        });
       } catch {
         clearAuth();
       } finally {
@@ -54,7 +59,7 @@ export default function App() {
     }
     restoreSession();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hasHydrated]);
 
   if (isInitializing) {
     return (

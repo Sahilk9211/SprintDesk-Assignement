@@ -1,5 +1,5 @@
 // src/utils/analytics.ts
-import type { Task, Sprint, TaskStatus, TaskPriority } from "../types";
+import type { Task, Sprint, TaskPriority } from "../types";
 import { statusOrder, statusLabel } from "./taskDisplay";
 
 export interface VelocityDatum {

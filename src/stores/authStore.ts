@@ -5,13 +5,14 @@ import type { AuthState, AuthUser } from "../types/auth";
 
 interface AuthStore extends AuthState {
   refreshToken: string | null;
-  isInitializing: boolean; // true while validating session on app load
+  isInitializing: boolean;
+  hasHydrated: boolean; // NEW — true once Zustand finishes reading localStorage
   setAuth: (data: AuthUser) => void;
   setAccessToken: (token: string) => void;
   clearAuth: () => void;
   setInitializing: (value: boolean) => void;
+  setHasHydrated: (value: boolean) => void; // NEW
 }
-
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
@@ -20,6 +21,7 @@ export const useAuthStore = create<AuthStore>()(
       refreshToken: null,
       isAuthenticated: false,
       isInitializing: true,
+      hasHydrated: false, // NEW
 
       setAuth: (data) =>
         set({
@@ -38,6 +40,8 @@ export const useAuthStore = create<AuthStore>()(
         }),
 
       setAccessToken: (token) => set({ accessToken: token }),
+      setInitializing: (value) => set({ isInitializing: value }),
+      setHasHydrated: (value) => set({ hasHydrated: value }), // NEW
 
       clearAuth: () =>
         set({
@@ -46,19 +50,17 @@ export const useAuthStore = create<AuthStore>()(
           refreshToken: null,
           isAuthenticated: false,
         }),
-
-      setInitializing: (value) => set({ isInitializing: value }),
     }),
     {
       name: "sprintdesk-auth",
-      // CRITICAL: only persist refreshToken + user.
-      // accessToken must stay in-memory only (assignment requirement),
-      // so it's deliberately excluded here — it's lost on refresh and
-      // re-obtained via the refresh flow in Step 6.
       partialize: (state) => ({
         refreshToken: state.refreshToken,
         user: state.user,
       }),
+      // NEW — fires the moment Zustand finishes applying localStorage data
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

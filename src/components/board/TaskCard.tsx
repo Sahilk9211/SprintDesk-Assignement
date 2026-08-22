@@ -10,9 +10,16 @@ interface TaskCardProps {
   task: Task;
   assignee: User | undefined;
   onClick: () => void;
+  isOverlay?: boolean;
 }
 
-function TaskCard({ task, assignee, onClick }: TaskCardProps) {
+function TaskCard({
+  task,
+  assignee,
+  onClick,
+  isOverlay = false,
+}: TaskCardProps) {
+  const sortable = useSortable({ id: task.id, disabled: isOverlay });
   const {
     attributes,
     listeners,
@@ -20,9 +27,7 @@ function TaskCard({ task, assignee, onClick }: TaskCardProps) {
     transform,
     transition,
     isDragging,
-  } = useSortable({
-    id: task.id,
-  });
+  } = sortable;
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -34,15 +39,19 @@ function TaskCard({ task, assignee, onClick }: TaskCardProps) {
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      aria-label={`Task: ${task.title}`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") onClick();
-      }}
+      {...(isOverlay ? {} : attributes)}
+      {...(isOverlay ? {} : listeners)}
+      onClick={isOverlay ? undefined : onClick}
+      role={isOverlay ? undefined : "button"}
+      tabIndex={isOverlay ? undefined : 0}
+      aria-label={isOverlay ? undefined : `Task: ${task.title}`}
+      onKeyDown={
+        isOverlay
+          ? undefined
+          : (e) => {
+              if (e.key === "Enter") onClick();
+            }
+      }
       className="cursor-grab rounded-md border border-gray-200 bg-white p-3 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 active:cursor-grabbing"
     >
       <p className="text-sm font-medium text-gray-900">{task.title}</p>
@@ -60,6 +69,7 @@ function TaskCard({ task, assignee, onClick }: TaskCardProps) {
           <img
             src={assignee.avatar}
             alt={assignee.name}
+            loading="lazy"
             className="h-5 w-5 rounded-full"
           />
           <span className="text-xs text-gray-600">{assignee.name}</span>
