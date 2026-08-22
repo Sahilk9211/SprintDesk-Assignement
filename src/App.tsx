@@ -1,16 +1,32 @@
 // src/App.tsx
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./stores/authStore";
 import { refreshTokenRequest } from "./api/authService";
+import { useThemeSync } from "./hooks/useThemeSync";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
-import Login from "./pages/Login";
-import Board from "./pages/Board";
 import ToastContainer from "./components/ui/ToastContainer";
-import Analytics from "./pages/Analytics";
+import Login from "./pages/Login"; // login stays eager — it's the first thing unauthenticated users see
+
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Board = lazy(() => import("./pages/Board"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+
+function PageFallback() {
+  return (
+    <div
+      className="flex items-center justify-center py-20"
+      role="status"
+      aria-live="polite"
+    >
+      <span className="text-sm text-gray-500">Loading...</span>
+    </div>
+  );
+}
 
 export default function App() {
+  useThemeSync();
   const {
     refreshToken,
     setAccessToken,
@@ -60,15 +76,28 @@ export default function App() {
           <Route element={<AppLayout />}>
             <Route
               path="/dashboard"
-              element={<div>Dashboard (coming Step 9+)</div>}
+              element={
+                <Suspense fallback={<PageFallback />}>
+                  <Dashboard />
+                </Suspense>
+              }
             />
-            {/* <Route path="/board" element={<div>Board (coming later)</div>} /> */}
-            <Route path="/board" element={<Board />} />
-            {/* <Route
+            <Route
+              path="/board"
+              element={
+                <Suspense fallback={<PageFallback />}>
+                  <Board />
+                </Suspense>
+              }
+            />
+            <Route
               path="/analytics"
-              element={<div>Analytics (coming later)</div>}
-            /> */}
-            <Route path="/analytics" element={<Analytics />} />
+              element={
+                <Suspense fallback={<PageFallback />}>
+                  <Analytics />
+                </Suspense>
+              }
+            />
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

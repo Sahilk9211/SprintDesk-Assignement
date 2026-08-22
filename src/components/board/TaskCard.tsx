@@ -4,6 +4,7 @@ import { CSS } from "@dnd-kit/utilities";
 import type { Task, User } from "../../types";
 import Badge from "../ui/Badge";
 import { priorityColor } from "../../utils/taskDisplay";
+import { memo } from "react";
 
 interface TaskCardProps {
   task: Task;
@@ -11,7 +12,7 @@ interface TaskCardProps {
   onClick: () => void;
 }
 
-export default function TaskCard({ task, assignee, onClick }: TaskCardProps) {
+function TaskCard({ task, assignee, onClick }: TaskCardProps) {
   const {
     attributes,
     listeners,
@@ -67,3 +68,5 @@ export default function TaskCard({ task, assignee, onClick }: TaskCardProps) {
     </div>
   );
 }
+
+export default memo(TaskCard);

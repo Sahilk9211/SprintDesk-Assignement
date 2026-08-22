@@ -8,6 +8,7 @@ import NotificationBell from "../notifications/NotificationBell";
 import NotificationPanel from "../notifications/NotificationPanel";
 import { useNotificationData } from "../../hooks/useNotificationData";
 import { useNotificationPolling } from "../../hooks/useNotificationPolling";
+import { useThemeStore } from "../../stores/themeStore";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `px-3 py-2 rounded-md text-sm font-medium ${
@@ -20,6 +21,9 @@ export default function Navbar() {
   const user = useAuthStore((s) => s.user);
   const logout = useLogout();
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  const theme = useThemeStore((s) => s.theme);
+  const toggleTheme = useThemeStore((s) => s.toggleTheme);
 
   useNotificationData();
   useNotificationPolling(isPanelOpen);
@@ -48,7 +52,15 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+            className="rounded-md p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+          >
+            {theme === "light" ? "🌙" : "☀️"}
+          </button>
           <NotificationBell onClick={() => setIsPanelOpen(true)} />
+
           {user && (
             <div className="flex items-center gap-2">
               <img

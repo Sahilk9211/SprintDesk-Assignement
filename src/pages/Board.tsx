@@ -1,5 +1,5 @@
 // src/pages/Board.tsx
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -69,6 +69,23 @@ export default function Board() {
     moveTask(active.id as number, newStatus, newOrder);
   }
 
+  const handleTaskClick = useCallback((task: Task) => {
+    setSelectedTask(task);
+  }, []);
+
+  const tasksByStatus = useMemo(() => {
+    const map = new Map<TaskStatus, Task[]>();
+    statusOrder.forEach((status) => {
+      map.set(
+        status,
+        tasks
+          .filter((t) => t.status === status)
+          .sort((a, b) => a.order - b.order),
+      );
+    });
+    return map;
+  }, [tasks]);
+
   //   if (isLoading) {
   //     return <p className="text-sm text-gray-500">Loading board...</p>;
   //   }
@@ -100,7 +117,7 @@ export default function Board() {
         onDragEnd={handleDragEnd}
       >
         <div className="flex gap-4 overflow-x-auto pb-4">
-          {statusOrder.map((status) => (
+          {/* {statusOrder.map((status) => (
             <Column
               key={status}
               status={status}
@@ -108,7 +125,17 @@ export default function Board() {
                 .filter((t) => t.status === status)
                 .sort((a, b) => a.order - b.order)}
               users={users}
-              onTaskClick={(task) => setSelectedTask(task)} // Step 11 me drawer banayenge
+              // onTaskClick={(task) => setSelectedTask(task)} // Step 11 me drawer banayenge
+              onTaskClick={handleTaskClick} // Step 11 me drawer banayenge
+            />
+          ))} */}
+          {statusOrder.map((status) => (
+            <Column
+              key={status}
+              status={status}
+              tasks={tasksByStatus.get(status) ?? []}
+              users={users}
+              onTaskClick={handleTaskClick}
             />
           ))}
         </div>
