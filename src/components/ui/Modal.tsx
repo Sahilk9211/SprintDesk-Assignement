@@ -1,6 +1,5 @@
 // src/components/ui/Modal.tsx
-import { useEffect, useRef } from "react";
-import type { ReactNode } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 
 interface ModalProps {
@@ -29,13 +28,11 @@ export default function Modal({
     if (isOpen) {
       previouslyFocused.current = document.activeElement as HTMLElement;
       document.addEventListener("keydown", handleEscape);
-      // Move focus into the dialog once it's mounted.
       requestAnimationFrame(() => panelRef.current?.focus());
     }
 
     return () => {
       document.removeEventListener("keydown", handleEscape);
-      // Restore focus to whatever triggered the modal, once it closes.
       previouslyFocused.current?.focus();
     };
   }, [isOpen, onClose]);
@@ -45,11 +42,13 @@ export default function Modal({
   const panelPositionClass =
     position === "right"
       ? "ml-auto h-full w-full max-w-md animate-slide-in-right"
-      : "mx-auto mt-20 w-full max-w-lg rounded-lg";
+      : "w-full max-w-lg rounded-lg max-h-[85vh]";
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex bg-black/40"
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 ${
+        position === "center" ? "p-4" : ""
+      }`}
       role="presentation"
       onClick={onClose}
     >
