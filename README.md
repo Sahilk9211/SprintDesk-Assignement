@@ -1,76 +1,131 @@
-# React + TypeScript + Vite
+# SprintDesk
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sprint management dashboard for software teams — Kanban board with drag-and-drop, analytics, real-time notification polling, and a from-scratch component library.
 
-Currently, two official plugins are available:
+Built as a frontend engineering assignment for GrubPac Technologies.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Live Demo
 
-## React Compiler
+- **Live app:** [add Vercel URL after deployment]
+- **Screen recording:** [add link]
+- **Repository:** [add GitHub URL]
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Area                 | Technology                          |
+| -------------------- | ----------------------------------- |
+| Framework            | React 18 + TypeScript (strict mode) |
+| Build tool           | Vite                                |
+| Server state         | TanStack Query v5                   |
+| Client state         | Zustand (with `persist` middleware) |
+| Styling              | Tailwind CSS v3                     |
+| Routing              | React Router v6                     |
+| Charts               | Recharts                            |
+| Drag & drop          | @dnd-kit/core, @dnd-kit/sortable    |
+| Testing              | Vitest + React Testing Library      |
+| Auth API             | DummyJSON                           |
+| Notification polling | JSONPlaceholder                     |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 18+
+- npm
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
 
+```bash
+git clone <repo-url>
+cd sprintdesk
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Environment Variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+None required — all API base URLs (DummyJSON, JSONPlaceholder) are hardcoded in `src/api/clients.ts` since they're public demo APIs with no keys.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Running Locally
+
+```bash
+npm run dev
+```
+
+App runs at `http://localhost:5173`.
+
+### Test Login Credentials
+
+DummyJSON's public demo user:
 
 ```
-# SprintDesk-Assignement
+username: emilys
+password: emilyspass
+```
+
+### Running Tests
+
+```bash
+npm run test
+```
+
+Covers: `useToast` hook, board Zustand store (add/move/delete), and the auth interceptor's refresh-and-retry flow.
+
+### Building for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Features
+
+### Authentication
+
+- Login via DummyJSON, access token held in memory, refresh token persisted in localStorage
+- Axios interceptor auto-attaches the Bearer token and silently refreshes + retries on 401
+- Protected routes, session restored on page refresh, full-screen loader during session validation
+
+### Kanban Board
+
+- Four columns (Backlog, In Progress, Review, Done), drag-and-drop within and across columns via @dnd-kit
+- Keyboard-accessible dragging (arrow keys once a card is focused and grabbed)
+- Board state persisted across refreshes (Zustand `persist`)
+- Task drawer for viewing/editing details and adding comments
+- Create and delete tasks (with confirmation)
+
+### Analytics
+
+- Sprint Velocity, Task Status Distribution, Priority Breakdown, Completion Trend — all derived live from board state, not hardcoded
+- Fully responsive, including 375px mobile
+
+### Design System
+
+Built from scratch with Tailwind: `Button`, `Input`, `Select`, `Modal` (center + right-drawer variants), `Badge`, `Toast`, `Skeleton`, `DataTable`.
+
+### Notifications
+
+- Polls JSONPlaceholder every 15s, treats new post IDs as new notifications
+- Bell with unread count, panel with pagination (20/page), mark read / mark all read
+- Polling pauses when the browser tab is hidden, resumes when visible
+- Toast shown for new notifications only while the panel is closed
+
+### Theming
+
+- Light/dark mode toggle, persisted, applied via Tailwind's `class` strategy
+
+### Performance & Accessibility
+
+- Route-level code splitting (`React.lazy` + `Suspense`) for Dashboard, Board, Analytics
+- `React.memo` on `TaskCard`/`Column`, `useMemo`/`useCallback` on board-page derived data and handlers
+- Lighthouse: Performance 90+, Accessibility 98 (audited in incognito, storage-clear disabled — see note below)
+
+## Known Limitations / What I'd Improve With More Time
+
+- **Remember Me (30-day) and password strength indicator** — bonus features, not implemented; prioritized the required task list under the deadline.
+- **`DataTable` component** — built as part of the design system (Task 04 requirement) but not currently wired into a specific page; no natural data-table use case emerged in the required screens.
+- **Recharts axis/tooltip theming** — charts sit inside dark-mode-aware cards, but Recharts' internal SVG text does not automatically pick up the app's dark palette; a follow-up pass would theme axis ticks and tooltips explicitly.
+- **Comments and newly-created tasks are client-only** — since there's no real backend, new comments and tasks live in Zustand (persisted to localStorage) rather than a server; this is intentional per the assignment's "simulate a backend" framing, documented here for transparency.
+
+## A Note on Lighthouse Auditing
+
+Chrome DevTools' Lighthouse panel clears `localStorage` by default before running, which logs the app out mid-audit (since the refresh token lives there) and can affect scores. Audits for this project were run with **"Clear storage" unchecked** and in an **incognito window** (to exclude browser extension interference), against the production build (`npm run preview`).

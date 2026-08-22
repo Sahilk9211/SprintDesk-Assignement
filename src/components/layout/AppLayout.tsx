@@ -1,8 +1,10 @@
 // src/components/layout/AppLayout.tsx
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
+import { useBoardData } from "../../hooks/useBoardData";
 
 export default function AppLayout() {
+  useBoardData();
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors dark:bg-dark-bg dark:text-dark-text">
       <a
