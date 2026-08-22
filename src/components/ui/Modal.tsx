@@ -92,7 +92,9 @@ export default function Modal({
             </svg>
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 py-4">{children}</div>
+        <div className="flex-1 hide-scrollbar overflow-y-auto px-4 py-4">
+          {children}
+        </div>
       </div>
     </div>,
     document.body,
