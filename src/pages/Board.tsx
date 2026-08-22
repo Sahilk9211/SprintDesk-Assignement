@@ -89,7 +89,6 @@ export default function Board() {
 
   return (
     <div>
-      <h1 className="mb-4 text-xl font-semibold text-gray-900">Sprint Board</h1>
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold text-gray-900">Sprint Board</h1>
         <Button onClick={() => setIsCreateOpen(true)}>+ New Task</Button>
