@@ -26,24 +26,28 @@ export default function Column({
   return (
     <div
       ref={setNodeRef}
-      className={`flex w-72 flex-shrink-0 flex-col rounded-lg border ${
-        isOver ? "border-indigo-400 bg-indigo-50" : "border-gray-200 bg-gray-50"
-      } p-3`}
+      className={`flex w-72 flex-shrink-0 flex-col rounded-lg border p-3 transition-colors ${
+        isOver
+          ? "border-indigo-400 bg-indigo-50 dark:border-indigo-500/60 dark:bg-indigo-950/30"
+          : "border-gray-200 bg-gray-50 dark:border-dark-border dark:bg-dark-surface"
+      }`}
     >
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-gray-700">
+        <h2 className="text-sm font-semibold text-gray-700 dark:text-dark-text">
           {statusLabel[status]}
         </h2>
-        <span className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">
+        <span
+          className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600 dark:bg-dark-elevated dark:text-dark-muted
+          "
+        >
           {tasks.length}
         </span>
       </div>
-
       <SortableContext
         items={tasks.map((t) => t.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="flex flex-col gap-2 min-h-[40px]">
+        <div className="flex min-h-[40px] flex-col gap-2">
           {tasks.map((task) => (
             <TaskCard
               key={task.id}

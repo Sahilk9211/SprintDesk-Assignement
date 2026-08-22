@@ -8,7 +8,7 @@ export default function ToastContainer() {
 
   return createPortal(
     <div
-      className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2"
+      className="fixed bottom-4 right-4 left-4 sm:left-auto z-[100] flex flex-col gap-2 sm:w-auto sm:max-w-sm"
       aria-live="polite"
     >
       {toasts.map((toast) => (

@@ -41,7 +41,7 @@ export default function NotificationPanel({
         )}
 
         {pageItems.length === 0 ? (
-          <p className="py-6 text-center text-sm text-gray-500">
+          <p className="py-6 text-center text-sm text-gray-500 dark:text-dark-muted">
             No notifications yet
           </p>
         ) : (
@@ -53,15 +53,21 @@ export default function NotificationPanel({
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && markRead(n.id)}
-                className={`cursor-pointer rounded-md border p-3 text-sm ${
+                className={`cursor-pointer rounded-md border p-3 text-sm transition-colors ${
                   n.read
-                    ? "border-gray-200 bg-white"
-                    : "border-indigo-200 bg-indigo-50"
+                    ? "border-gray-200 bg-white hover:bg-gray-50 dark:border-dark-border dark:bg-dark-surface dark:hover:bg-dark-hover"
+                    : "border-indigo-200 bg-indigo-50 hover:bg-indigo-100 dark:border-indigo-800 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/40"
                 }`}
               >
-                <p className="font-medium text-gray-800">{n.title}</p>
-                <p className="text-gray-600">{n.message}</p>
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="font-medium text-gray-800 dark:text-dark-text">
+                  {n.title}
+                </p>
+
+                <p className="text-gray-600 dark:text-dark-muted">
+                  {n.message}
+                </p>
+
+                <p className="mt-1 text-xs text-gray-400 dark:text-dark-subtle">
                   {new Date(n.createdAt).toLocaleString()}
                 </p>
               </li>
@@ -78,7 +84,7 @@ export default function NotificationPanel({
             >
               Previous
             </Button>
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500 dark:text-dark-muted">
               Page {page} of {totalPages}
             </span>
             <Button

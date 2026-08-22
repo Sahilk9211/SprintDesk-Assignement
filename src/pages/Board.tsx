@@ -75,6 +75,7 @@ export default function Board() {
 
   const tasksByStatus = useMemo(() => {
     const map = new Map<TaskStatus, Task[]>();
+
     statusOrder.forEach((status) => {
       map.set(
         status,
@@ -83,18 +84,15 @@ export default function Board() {
           .sort((a, b) => a.order - b.order),
       );
     });
+
     return map;
   }, [tasks]);
 
-  //   if (isLoading) {
-  //     return <p className="text-sm text-gray-500">Loading board...</p>;
-  //   }
-
   if (isLoading) {
     return (
-      <div className="flex gap-4">
+      <div className="flex gap-4 overflow-x-auto">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="w-72 space-y-2">
+          <div key={i} className="w-72 shrink-0 space-y-2">
             <Skeleton variant="rect" height="40px" />
             <Skeleton variant="rect" height="80px" />
             <Skeleton variant="rect" height="80px" />
@@ -107,28 +105,25 @@ export default function Board() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-900">Sprint Board</h1>
+        <h1 className="text-xl font-semibold text-gray-900 dark:text-dark-text">
+          Sprint Board
+        </h1>
+
         <Button onClick={() => setIsCreateOpen(true)}>+ New Task</Button>
       </div>
+
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
       >
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          {/* {statusOrder.map((status) => (
-            <Column
-              key={status}
-              status={status}
-              tasks={tasks
-                .filter((t) => t.status === status)
-                .sort((a, b) => a.order - b.order)}
-              users={users}
-              // onTaskClick={(task) => setSelectedTask(task)} // Step 11 me drawer banayenge
-              onTaskClick={handleTaskClick} // Step 11 me drawer banayenge
-            />
-          ))} */}
+        <div
+          className="
+            flex gap-4 overflow-x-auto pb-4
+            scrollbar-thin
+          "
+        >
           {statusOrder.map((status) => (
             <Column
               key={status}
@@ -151,6 +146,7 @@ export default function Board() {
           )}
         </DragOverlay>
       </DndContext>
+
       <TaskDrawer
         task={
           selectedTask
@@ -160,6 +156,7 @@ export default function Board() {
         users={users}
         onClose={() => setSelectedTask(null)}
       />
+
       <CreateTaskModal
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}

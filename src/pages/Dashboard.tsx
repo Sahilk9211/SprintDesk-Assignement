@@ -7,15 +7,22 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold text-gray-900">Dashboard</h1>
+      <h1 className="mb-6 text-xl font-semibold text-gray-900 dark:text-dark-text">
+        Dashboard
+      </h1>
+
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {statusOrder.map((status) => (
           <div
             key={status}
-            className="rounded-lg border border-gray-200 bg-white p-4"
+            className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-dark-border dark:bg-dark-surface dark:shadow-dark-sm
+            "
           >
-            <p className="text-sm text-gray-500">{statusLabel[status]}</p>
-            <p className="mt-1 text-2xl font-semibold text-gray-900">
+            <p className="text-sm text-gray-500 dark:text-dark-subtle">
+              {statusLabel[status]}
+            </p>
+
+            <p className="mt-1 text-2xl font-semibold text-gray-900 dark:text-dark-text">
               {tasks.filter((t) => t.status === status).length}
             </p>
           </div>

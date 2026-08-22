@@ -1,5 +1,6 @@
 // src/components/ui/Modal.tsx
-import { ReactNode, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
+import type { ReactNode } from "react";
 import { createPortal } from "react-dom";
 
 interface ModalProps {
@@ -28,6 +29,7 @@ export default function Modal({
     if (isOpen) {
       previouslyFocused.current = document.activeElement as HTMLElement;
       document.addEventListener("keydown", handleEscape);
+
       requestAnimationFrame(() => panelRef.current?.focus());
     }
 
@@ -46,9 +48,7 @@ export default function Modal({
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/40 ${
-        position === "center" ? "p-4" : ""
-      }`}
+      className={` fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/60 ${position === "center" ? "p-4" : ""}`}
       role="presentation"
       onClick={onClose}
     >
@@ -58,22 +58,38 @@ export default function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className={`flex flex-col bg-white shadow-xl outline-none ${panelPositionClass}`}
+        className={`flex flex-col bg-white text-gray-900 shadow-xl outline-none transition-colors dark:bg-dark-surface dark:text-dark-text dark:shadow-2xl ${panelPositionClass}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+        <div className="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-dark-border">
           <h2
             id="modal-title"
-            className="text-base font-semibold text-gray-900"
+            className="text-base font-semibold text-gray-900 dark:text-dark-text"
           >
             {title}
           </h2>
+
           <button
+            type="button"
             onClick={onClose}
             aria-label="Close"
-            className="rounded-md p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:text-dark-muted dark:hover:bg-dark-hover dark:hover:text-dark-text
+            "
           >
-            ✕
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
           </button>
         </div>
         <div className="flex-1 overflow-y-auto px-4 py-4">{children}</div>

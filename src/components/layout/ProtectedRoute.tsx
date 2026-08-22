@@ -9,11 +9,13 @@ export default function ProtectedRoute() {
   if (isInitializing) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center"
+        className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-900 transition-colors dark:bg-dark-bg dark:text-dark-text"
         role="status"
         aria-live="polite"
       >
-        <span className="text-sm text-gray-500">Loading session...</span>
+        <span className="text-sm text-gray-500 dark:text-dark-muted">
+          Loading session...
+        </span>
       </div>
     );
   }

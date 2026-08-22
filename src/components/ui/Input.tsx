@@ -17,26 +17,33 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={
             hideLabel
               ? "sr-only"
-              : "block text-sm font-medium text-gray-700 mb-1"
+              : "mb-1 block text-sm font-medium text-gray-700 dark:text-dark-text"
           }
         >
           {label}
         </label>
+
         <input
           id={id}
           ref={ref}
           aria-invalid={!!error}
           aria-describedby={error ? `${id}-error` : undefined}
-          className={`w-full rounded-md border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
-            error ? "border-red-500" : "border-gray-300"
-          } ${className}`}
+          className={`w-full rounded-md border px-3 py-2 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500
+            ${
+              error
+                ? "border-red-500 dark:border-red-500"
+                : "border-gray-300 dark:border-dark-border"
+            } bg-white text-gray-900 placeholder:text-gray-400 dark:bg-dark-elevated dark:text-dark-text dark:placeholder:text-dark-subtle
+            ${className}
+          `}
           {...rest}
         />
+
         {error && (
           <p
             id={`${id}-error`}
             role="alert"
-            className="mt-1 text-sm text-red-600"
+            className="mt-1 text-sm text-red-600 dark:text-red-400"
           >
             {error}
           </p>
@@ -47,4 +54,5 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = "Input";
+
 export default Input;

@@ -7,7 +7,7 @@ import { useThemeSync } from "./hooks/useThemeSync";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import AppLayout from "./components/layout/AppLayout";
 import ToastContainer from "./components/ui/ToastContainer";
-import Login from "./pages/Login"; // login stays eager — it's the first thing unauthenticated users see
+import Login from "./pages/Login";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Board = lazy(() => import("./pages/Board"));
@@ -20,7 +20,9 @@ function PageFallback() {
       role="status"
       aria-live="polite"
     >
-      <span className="text-sm text-gray-500">Loading...</span>
+      <span className="text-sm text-gray-500 dark:text-dark-muted">
+        Loading...
+      </span>
     </div>
   );
 }
@@ -33,11 +35,11 @@ export default function App() {
     setInitializing,
     clearAuth,
     isInitializing,
-    hasHydrated, // NEW
+    hasHydrated,
   } = useAuthStore();
 
   useEffect(() => {
-    if (!hasHydrated) return; // NEW — wait for localStorage read to complete
+    if (!hasHydrated) return;
     async function restoreSession() {
       if (!refreshToken) {
         setInitializing(false);
@@ -58,59 +60,63 @@ export default function App() {
       }
     }
     restoreSession();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasHydrated]);
 
   if (isInitializing) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center"
+        className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-bg"
         role="status"
         aria-live="polite"
       >
-        <span className="text-sm text-gray-500">Loading SprintDesk...</span>
+        <span className="text-sm text-gray-500 dark:text-dark-muted">
+          Loading SprintDesk...
+        </span>
       </div>
     );
   }
 
   return (
     <>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<ProtectedRoute />}>
-          <Route element={<AppLayout />}>
-            <Route
-              path="/dashboard"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Dashboard />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/board"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Board />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/analytics"
-              element={
-                <Suspense fallback={<PageFallback />}>
-                  <Analytics />
-                </Suspense>
-              }
-            />
+      <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors dark:bg-dark-bg dark:text-dark-text">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route element={<ProtectedRoute />}>
+            <Route element={<AppLayout />}>
+              <Route
+                path="/dashboard"
+                element={
+                  <Suspense fallback={<PageFallback />}>
+                    <Dashboard />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/board"
+                element={
+                  <Suspense fallback={<PageFallback />}>
+                    <Board />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/analytics"
+                element={
+                  <Suspense fallback={<PageFallback />}>
+                    <Analytics />
+                  </Suspense>
+                }
+              />
+            </Route>
           </Route>
-        </Route>
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
+
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
+      </div>
       <ToastContainer />
     </>
   );
 }
 
-// username: emilys;
-// password: emilyspass;
+// username: emilys
+// password: emilyspass

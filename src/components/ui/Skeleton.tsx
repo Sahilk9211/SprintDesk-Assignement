@@ -23,7 +23,7 @@ export default function Skeleton({
   return (
     <div
       aria-hidden="true"
-      className={`animate-pulse bg-gray-200 ${variantClasses[variant]} ${className}`}
+      className={`animate-pulse bg-gray-200 dark:bg-dark-elevated ${variantClasses[variant]} ${className} `}
       style={{ width, height }}
     />
   );

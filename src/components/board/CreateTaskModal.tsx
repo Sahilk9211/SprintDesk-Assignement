@@ -20,10 +20,6 @@ export default function CreateTaskModal({
   onClose,
   users,
 }: CreateTaskModalProps) {
-  //   const addTask = useBoardStore((s) => s.tasks);
-  //   const addTaskAction = useBoardStore((s) => s.addTask);
-  //   const tasks = useBoardStore((s) => s.tasks);
-
   const toast = useToast();
   const tasks = useBoardStore((s) => s.tasks);
   const addTaskAction = useBoardStore((s) => s.addTask);
@@ -44,10 +40,12 @@ export default function CreateTaskModal({
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+
     if (!title.trim()) {
       setTitleError("Title is required");
       return;
     }
+
     if (!dueDate) {
       return;
     }
@@ -63,7 +61,7 @@ export default function CreateTaskModal({
       priority,
       assigneeId,
       dueDate,
-      sprintId: 3, // current active sprint — see note below
+      sprintId: 3,
       order: tasks.filter((t) => t.status === "backlog").length + 1,
       createdAt: now,
       completedAt: null,
@@ -89,7 +87,10 @@ export default function CreateTaskModal({
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
-            if (titleError) setTitleError("");
+
+            if (titleError) {
+              setTitleError("");
+            }
           }}
           error={titleError}
           required
@@ -112,7 +113,10 @@ export default function CreateTaskModal({
           label="Assignee"
           value={assigneeId}
           onChange={(e) => setAssigneeId(Number(e.target.value))}
-          options={users.map((u) => ({ value: String(u.id), label: u.name }))}
+          options={users.map((u) => ({
+            value: String(u.id),
+            label: u.name,
+          }))}
         />
 
         <Input
@@ -124,10 +128,11 @@ export default function CreateTaskModal({
           required
         />
 
-        <div className="flex justify-end gap-2 pt-2">
+        <div className="flex justify-end gap-2 border-t border-transparent pt-2 dark:border-transparent">
           <Button type="button" variant="ghost" onClick={onClose}>
             Cancel
           </Button>
+
           <Button type="submit">Create Task</Button>
         </div>
       </form>

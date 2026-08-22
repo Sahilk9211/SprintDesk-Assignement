@@ -44,6 +44,7 @@ export default function TaskDrawer({ task, users, onClose }: TaskDrawerProps) {
   function handleCommentSubmit(e: FormEvent) {
     e.preventDefault();
     if (!newComment.trim() || !task) return;
+
     addComment({
       id: Date.now(),
       taskId: task.id,
@@ -51,11 +52,13 @@ export default function TaskDrawer({ task, users, onClose }: TaskDrawerProps) {
       message: newComment.trim(),
       createdAt: new Date().toISOString(),
     });
+
     setNewComment("");
   }
 
   function handleDeleteConfirmed() {
     if (!task) return;
+
     deleteTask(task.id);
     toast.success("Task deleted");
     onClose();
@@ -77,10 +80,13 @@ export default function TaskDrawer({ task, users, onClose }: TaskDrawerProps) {
         />
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-dark-muted">
             Description
           </label>
-          <p className="text-sm text-gray-600">{task.description}</p>
+
+          <p className="text-sm text-gray-600 dark:text-dark-subtle">
+            {task.description}
+          </p>
         </div>
 
         <Select
@@ -119,7 +125,10 @@ export default function TaskDrawer({ task, users, onClose }: TaskDrawerProps) {
           onChange={(e) =>
             updateTask(task.id, { assigneeId: Number(e.target.value) })
           }
-          options={users.map((u) => ({ value: String(u.id), label: u.name }))}
+          options={users.map((u) => ({
+            value: String(u.id),
+            label: u.name,
+          }))}
         />
 
         <Input
@@ -130,25 +139,36 @@ export default function TaskDrawer({ task, users, onClose }: TaskDrawerProps) {
           onChange={(e) => updateTask(task.id, { dueDate: e.target.value })}
         />
 
-        <hr className="border-gray-200" />
+        <hr className="border-gray-200 dark:border-dark-border" />
 
         <div>
-          <h3 className="mb-2 text-sm font-semibold text-gray-700">
+          <h3 className="mb-2 text-sm font-semibold text-gray-700 dark:text-dark-muted">
             Comments <Badge>{allComments.length}</Badge>
           </h3>
-          <ul className="space-y-2 mb-3">
+
+          <ul className="mb-3 space-y-2">
             {allComments.map((c) => {
               const author = users.find((u) => u.id === c.authorId);
+
               return (
-                <li key={c.id} className="rounded-md bg-gray-50 p-2 text-sm">
-                  <span className="font-medium text-gray-800">
+                <li
+                  key={c.id}
+                  className="
+                    rounded-md bg-gray-50 p-2 text-sm dark:bg-dark-elevated
+                  "
+                >
+                  <span className="font-medium text-gray-800 dark:text-dark-text">
                     {author?.name ?? "Unknown"}:{" "}
                   </span>
-                  <span className="text-gray-600">{c.message}</span>
+
+                  <span className="text-gray-600 dark:text-dark-muted">
+                    {c.message}
+                  </span>
                 </li>
               );
             })}
           </ul>
+
           <form onSubmit={handleCommentSubmit} className="flex gap-2">
             <Input
               id="new-comment"
@@ -159,21 +179,26 @@ export default function TaskDrawer({ task, users, onClose }: TaskDrawerProps) {
               placeholder="Add a comment..."
               className="flex-1"
             />
+
             <Button type="submit" variant="secondary">
               Post
             </Button>
           </form>
         </div>
 
-        <hr className="border-gray-200" />
+        <hr className="border-gray-200 dark:border-dark-border" />
 
         {!confirmingDelete ? (
           <Button variant="danger" onClick={() => setConfirmingDelete(true)}>
             Delete Task
           </Button>
         ) : (
-          <div className="flex items-center gap-2 rounded-md border border-red-200 bg-red-50 p-3">
-            <span className="text-sm text-red-700">
+          <div
+            className="
+              flex items-center gap-2 rounded-md border border-red-200 bg-red-50 p-3 dark:border-red-900/50 dark:bg-red-950/30
+            "
+          >
+            <span className="text-sm text-red-700 dark:text-red-300">
               Delete this task permanently?
             </span>
             <Button variant="danger" onClick={handleDeleteConfirmed}>

@@ -23,13 +23,26 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div
+      className="
+        flex min-h-screen items-center justify-center
+        bg-gray-50 px-4
+        dark:bg-dark-bg
+      "
+    >
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-sm bg-white rounded-lg shadow-md p-8 space-y-5"
+        className="w-full max-w-sm space-y-5 rounded-lg border border-gray-200 bg-white p-8 shadow-md dark:border-dark-border dark:bg-dark-surface dark:shadow-dark-lg "
       >
-        <h1 className="text-2xl font-semibold text-gray-900">SprintDesk</h1>
-        <p className="text-sm text-gray-500">Sign in to manage your sprints</p>
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-dark-text">
+            SprintDesk
+          </h1>
+
+          <p className="mt-1 text-sm text-gray-500 dark:text-dark-subtle">
+            Sign in to manage your sprints
+          </p>
+        </div>
 
         <Input
           id="username"
@@ -50,7 +63,7 @@ export default function Login() {
         />
 
         {error && (
-          <p role="alert" className="text-sm text-red-600">
+          <p role="alert" className="text-sm text-red-600 dark:text-red-400">
             Invalid username or password.
           </p>
         )}

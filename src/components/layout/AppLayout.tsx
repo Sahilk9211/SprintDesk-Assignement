@@ -4,14 +4,19 @@ import Navbar from "./Navbar";
 
 export default function AppLayout() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 text-gray-900 transition-colors dark:bg-dark-bg dark:text-dark-text">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:shadow-lg"
+        className="
+          sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[200] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:shadow-lg dark:focus:bg-dark-elevated
+          dark:focus:text-dark-text dark:focus:shadow-dark-lg
+        "
       >
         Skip to main content
       </a>
+
       <Navbar />
+
       <main id="main-content" className="mx-auto max-w-7xl px-4 py-6">
         <Outlet />
       </main>
