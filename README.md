@@ -7,7 +7,7 @@ Built as a frontend engineering assignment for GrubPac Technologies.
 ## Live Demo
 
 - **Live app:** https://sprint-desk-assignement.vercel.app/
-- **Screen recording:** [add link]
+- **Screen recording:** https://drive.google.com/file/d/1DTdT2hMa0ZTPUtf128YkvyMTwt7WVU3-/view?usp=sharing
 - **Repository:** https://github.com/Sahilk9211/SprintDesk-Assignement
 
 ## Tech Stack
