@@ -1,4 +1,3 @@
-// src/components/ui/Badge.tsx
 import type { ReactNode } from "react";
 
 type BadgeColor = "gray" | "green" | "yellow" | "red" | "blue";

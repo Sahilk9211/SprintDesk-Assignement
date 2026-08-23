@@ -1,4 +1,4 @@
-// src/hooks/useToast.ts
+
 import { useCallback } from "react";
 import { useToastStore } from "../stores/toastStore";
 import type { ToastType } from "../stores/toastStore";

@@ -1,4 +1,3 @@
-// src/utils/taskDisplay.ts
 import type { TaskPriority, TaskStatus } from "../types";
 
 export const priorityColor: Record<TaskPriority, "gray" | "yellow" | "red"> = {

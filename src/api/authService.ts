@@ -1,4 +1,3 @@
-// src/api/authService.ts
 import { authClient } from "./clients";
 import type { LoginCredentials, AuthUser } from "../types/auth";
 
@@ -8,7 +7,7 @@ export async function loginRequest(
   const { data } = await authClient.post<AuthUser>("/auth/login", {
     username: credentials.username,
     password: credentials.password,
-    expiresInMins: 30, // short expiry so we can realistically test silent refresh
+    expiresInMins: 30,
   });
   return data;
 }

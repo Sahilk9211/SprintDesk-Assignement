@@ -1,4 +1,3 @@
-// src/pages/Board.tsx
 import { useCallback, useMemo, useState } from "react";
 import {
   DndContext,
@@ -53,7 +52,6 @@ export default function Board() {
     const activeTask = tasks.find((t) => t.id === active.id);
     if (!activeTask) return;
 
-    // Dropped over a column (empty area) vs over another task card.
     const overIsColumn = statusOrder.includes(over.id as TaskStatus);
     const newStatus = overIsColumn
       ? (over.id as TaskStatus)

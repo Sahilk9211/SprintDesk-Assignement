@@ -1,4 +1,3 @@
-// src/hooks/useTasksQuery.ts
 import { useQuery } from "@tanstack/react-query";
 import { getTasks, getUsers, getSprints } from "../api/mockDataService";
 

@@ -1,4 +1,3 @@
-// src/components/ui/Skeleton.tsx
 type SkeletonVariant = "text" | "circle" | "rect";
 
 interface SkeletonProps {

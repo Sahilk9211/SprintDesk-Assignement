@@ -1,4 +1,3 @@
-// src/components/layout/Navbar.tsx
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
@@ -46,8 +45,6 @@ export default function Navbar() {
 
     if (isMobileMenuOpen) {
       document.addEventListener("keydown", handleEscape);
-
-      // Prevent background scrolling
       document.body.style.overflow = "hidden";
     }
 

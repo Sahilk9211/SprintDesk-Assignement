@@ -1,5 +1,3 @@
-// src/types/auth.ts
-
 export interface LoginCredentials {
   username: string;
   password: string;
@@ -18,8 +16,6 @@ export interface AuthUser {
   refreshToken: string;
 }
 
-// What we actually keep in Zustand auth state
-// (tokens handled separately — accessToken in memory, refreshToken persisted)
 export interface AuthState {
   user: Omit<AuthUser, "accessToken" | "refreshToken"> | null;
   accessToken: string | null;

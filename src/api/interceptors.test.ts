@@ -1,4 +1,3 @@
-// src/api/interceptors.test.ts
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -48,7 +47,7 @@ describe("auth interceptor", () => {
 
     const response = await client.get("/protected");
 
-    expect(callCount).toBe(2); // failed once, succeeded on retry
+    expect(callCount).toBe(2);
     expect(response.data).toEqual({ data: "success" });
     expect(useAuthStore.getState().accessToken).toBe("new-token");
   });

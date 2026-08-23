@@ -1,4 +1,3 @@
-// src/hooks/useNotificationData.ts
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getInitialNotifications } from "../api/mockDataService";

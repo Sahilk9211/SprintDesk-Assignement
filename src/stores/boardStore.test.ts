@@ -1,4 +1,3 @@
-// src/stores/boardStore.test.ts
 import { describe, it, expect, beforeEach } from "vitest";
 import { useBoardStore } from "./boardStore";
 import type { Task } from "../types";
@@ -48,7 +47,6 @@ describe("boardStore", () => {
     useBoardStore.getState().moveTask(1, "done", 1);
     useBoardStore.getState().hydrate([{ ...mockTask, status: "backlog" }]);
 
-    // Second hydrate call should be a no-op — user's move should stick.
     expect(useBoardStore.getState().tasks[0].status).toBe("done");
   });
 });

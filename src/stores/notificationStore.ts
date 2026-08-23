@@ -1,11 +1,10 @@
-// src/stores/notificationStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { AppNotification } from "../types";
 
 interface NotificationStore {
   notifications: AppNotification[];
-  seenPollIds: number[]; // JSONPlaceholder post IDs already turned into notifications
+  seenPollIds: number[];
   isHydrated: boolean;
   hydrate: (initial: AppNotification[]) => void;
   addNotification: (notification: AppNotification) => void;

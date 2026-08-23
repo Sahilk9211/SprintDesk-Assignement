@@ -1,4 +1,3 @@
-// src/components/layout/ProtectedRoute.tsx
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../../stores/authStore";
 

@@ -1,4 +1,3 @@
-// src/components/board/Column.tsx
 import { useDroppable } from "@dnd-kit/core";
 import {
   SortableContext,

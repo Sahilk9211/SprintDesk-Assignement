@@ -1,11 +1,10 @@
-// src/stores/boardStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Task, TaskStatus } from "../types";
 
 interface BoardStore {
   tasks: Task[];
-  isHydrated: boolean; // has board been seeded from server data at least once?
+  isHydrated: boolean;
   hydrate: (serverTasks: Task[]) => void;
   moveTask: (taskId: number, newStatus: TaskStatus, newOrder: number) => void;
   addTask: (task: Task) => void;
@@ -19,10 +18,6 @@ export const useBoardStore = create<BoardStore>()(
       tasks: [],
       isHydrated: false,
 
-      // Only seeds from the server the FIRST time (isHydrated false).
-      // On later app loads, persisted (possibly reordered) tasks win —
-      // we don't want a fresh server fetch to silently undo a user's
-      // drag-and-drop changes from a previous session.
       hydrate: (serverTasks) => {
         if (get().isHydrated) return;
         set({ tasks: serverTasks, isHydrated: true });

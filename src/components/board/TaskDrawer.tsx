@@ -1,4 +1,3 @@
-// src/components/board/TaskDrawer.tsx
 import { useState } from "react";
 import type { FormEvent } from "react";
 import type { Task, User } from "../../types";

@@ -1,4 +1,3 @@
-// src/components/ui/DataTable.tsx
 import type { ReactNode } from "react";
 
 interface Column<T> {

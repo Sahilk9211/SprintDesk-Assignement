@@ -1,4 +1,3 @@
-// src/components/notifications/NotificationBell.tsx
 import { useNotificationStore } from "../../stores/notificationStore";
 
 interface NotificationBellProps {

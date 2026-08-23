@@ -1,4 +1,3 @@
-// src/utils/analytics.ts
 import type { Task, Sprint, TaskPriority } from "../types";
 import { statusOrder, statusLabel } from "./taskDisplay";
 
@@ -63,7 +62,7 @@ export function getCompletionTrend(tasks: Task[]): TrendDatum[] {
 
   const countByDate = new Map<string, number>();
   completedTasks.forEach((t) => {
-    const date = new Date(t.completedAt as string).toISOString().slice(0, 10); // YYYY-MM-DD
+    const date = new Date(t.completedAt as string).toISOString().slice(0, 10);
     countByDate.set(date, (countByDate.get(date) ?? 0) + 1);
   });
 

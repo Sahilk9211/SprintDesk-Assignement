@@ -1,4 +1,3 @@
-// src/components/ui/Select.tsx
 import type { SelectHTMLAttributes } from "react";
 
 interface SelectOption {

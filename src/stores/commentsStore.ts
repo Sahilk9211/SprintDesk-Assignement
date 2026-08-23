@@ -1,10 +1,9 @@
-// src/stores/commentsStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { Comment } from "../types";
 
 interface CommentsStore {
-  localComments: Comment[]; // comments added client-side, not from mock-data.json
+  localComments: Comment[];
   addComment: (comment: Comment) => void;
 }
 

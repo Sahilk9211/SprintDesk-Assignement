@@ -1,5 +1,3 @@
-// src/types/notification.ts
-
 // Raw response shape from JSONPlaceholder polling endpoint
 // GET https://jsonplaceholder.typicode.com/posts?_limit=5
 export interface JsonPlaceholderPost {

@@ -1,4 +1,3 @@
-// src/pages/Analytics.tsx
 import {
   BarChart,
   Bar,

@@ -1,4 +1,3 @@
-// src/components/ui/Toast.tsx
 import type { ToastItem } from "../../stores/toastStore";
 import { useToastStore } from "../../stores/toastStore";
 

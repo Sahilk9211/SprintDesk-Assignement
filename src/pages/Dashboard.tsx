@@ -1,4 +1,3 @@
-// src/pages/Dashboard.tsx
 import { useBoardStore } from "../stores/boardStore";
 import { statusOrder, statusLabel } from "../utils/taskDisplay";
 
