@@ -6,9 +6,9 @@ Built as a frontend engineering assignment for GrubPac Technologies.
 
 ## Live Demo
 
-- **Live app:** [add Vercel URL after deployment]
+- **Live app:** https://sprint-desk-assignement.vercel.app/
 - **Screen recording:** [add link]
-- **Repository:** [add GitHub URL]
+- **Repository:** https://github.com/Sahilk9211/SprintDesk-Assignement
 
 ## Tech Stack
 
@@ -36,8 +36,8 @@ Built as a frontend engineering assignment for GrubPac Technologies.
 ### Installation
 
 ```bash
-git clone <repo-url>
-cd sprintdesk
+git clone https://github.com/Sahilk9211/SprintDesk-Assignement.git
+cd SprintDesk-Assignement
 npm install
 ```
 
